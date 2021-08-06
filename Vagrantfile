@@ -21,10 +21,6 @@ Vagrant.configure("2") do |config|
     virtualbox.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
     virtualbox.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
   end
-
-  if Vagrant::Util::Platform::darwin?
-    config.vm.provision :shell, path: "provisioning/fix-mac-flicker.sh"
-  end
   
   config.vm.provision :shell, path: "provisioning/setup-gui.sh"
   config.vm.provision :shell, path: "provisioning/install-utilities.sh"
@@ -37,6 +33,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, path: "provisioning/install-snap.sh", privileged: false
   config.vm.provision :shell, path: "provisioning/install-intellij.sh", privileged: false
   config.vm.provision :shell, path: "provisioning/install-vs-code.sh", privileged: false
+
+  if Vagrant::Util::Platform::darwin?
+    config.vm.provision :shell, path: "provisioning/fix-mac-flicker.sh"
+  end
 
   config.vm.provision :reload
 
